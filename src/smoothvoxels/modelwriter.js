@@ -28,6 +28,8 @@ export default class ModelWriter {
    * @param repeat An integer specifying whether to repeat the voxels to double or tripple the size, default is 1.
    */
   static writeToString (model, compressed, repeat, modelLine = null, materialLine = null) {
+    // 把model值转换str，返回写入文件
+    // 转化结果就是svox中的内容
     repeat = Math.round(repeat || 1)
 
     const voxColorToCount = new Map()
@@ -35,12 +37,16 @@ export default class ModelWriter {
 
     const { voxels, voxColorToColorId } = model
 
+    // 颜色
+    //[14198322, 13734697, 13404194, 14792512,....]
+    // 最后会转化成 A:#32A6D8 B:#2993D1 C:#28C
     for (const [voxColor, count] of voxels.getVoxColorCounts()) {
+      
       if (!voxColorToCount.has(voxColor)) {
         const r = voxColor & 0xff
         const g = (voxColor >> 8) & 0xff
         const b = (voxColor >> 16) & 0xff
-
+        
         let hex
 
         if (SINGLE_HEX_VALUES.has(r) && SINGLE_HEX_VALUES.has(g) && SINGLE_HEX_VALUES.has(b)) {
@@ -48,14 +54,12 @@ export default class ModelWriter {
         } else {
           hex = '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0')
         }
-
         voxColorToHex.set(voxColor, hex.toUpperCase())
       }
-
+      
       const c = voxColorToCount.get(voxColor) || 0
       voxColorToCount.set(voxColor, c + count)
     }
-
     // Sort the vox colors on (usage) count
     const sortedVoxColors = [...voxColorToCount.keys()].sort((a, b) => {
       return voxColorToCount.get(b) - voxColorToCount.get(a)
@@ -74,24 +78,27 @@ export default class ModelWriter {
         } while (voxColorToColorId.has(colorId))
 
         voxColorToColorId.set(voxColor, colorId)
+        // 13602343 Bq
       }
 
       maxIdLength = Math.max(voxColorToColorId.get(voxColor).length, maxIdLength)
-    }
 
+    }
     // If multi character color Id's (2 or 3 long) are used, use extra spaces for the '-' for empty voxels
     const voxelWidth = compressed || maxIdLength === 1 || maxIdLength > 3 ? 1 : maxIdLength
 
+    
     /// / Add the textures to the result
     let result = this._serializeTextures(model)
-
     /// / Add the lights to the result
     result += this._serializeLights(model)
 
+    // model\r\n
     result += 'model\r\n'
 
     if (modelLine) {
       result += modelLine + '\r\n'
+
     } else {
       // Add the size to the result
       const [sizeX, sizeY, sizeZ] = model.voxels.size
@@ -134,8 +141,10 @@ export default class ModelWriter {
 
       if (model.shell) result += `shell = ${this._getShell(model.shell)}\r\n`
     }
+    // result size = 31 32 31, scale = 0.05, origin = -y
 
-    // Add the materials and colors to the result
+    // result svox文件内容除了最后一行 color A:#32A6D8 B:#2993D1 C:#28C
+    // Add the materials and colors to the result 
     result += this._serializeMaterials(model, sortedVoxColors, voxColorToHex, materialLine)
 
     // Add the voxels to the result
@@ -178,7 +187,6 @@ export default class ModelWriter {
     })
 
     result += newLine
-
     return result
   }
 

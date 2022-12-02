@@ -1,5 +1,5 @@
-import { SMOOTH, BOTH } from './constants'
-import { xyzRangeForSize } from './voxels'
+import { SMOOTH, BOTH } from './constants.js'
+import { xyzRangeForSize } from './voxels.js'
 
 export default class NormalsCalculator {
   static calculateNormals (model, buffers) {

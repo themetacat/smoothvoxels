@@ -1,6 +1,6 @@
-import { FRONT, BACK, DOUBLE } from './constants'
-import BaseMaterial from './basematerial'
-import Material from './material'
+import { FRONT, BACK, DOUBLE } from './constants.js'
+import BaseMaterial from './basematerial.js'
+import Material from './material.js'
 
 export default class MaterialList {
   constructor () {

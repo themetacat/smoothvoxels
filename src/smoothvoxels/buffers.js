@@ -1,4 +1,4 @@
-import Bits from './bits'
+import Bits from './bits.js'
 
 export default class Buffers {
   constructor (maxVerts) {

@@ -1,4 +1,4 @@
-import Bits from './bits'
+import Bits from './bits.js'
 
 // Voxel values are:
 // r | (g << 8) | (b << 16) | (type << 24);

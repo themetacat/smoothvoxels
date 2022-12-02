@@ -1,4 +1,4 @@
-import { MODEL } from './constants'
+import { MODEL } from './constants.js'
 
 const OCTREE_NODE_POOL = []
 

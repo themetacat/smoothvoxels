@@ -1,5 +1,5 @@
-import Planar from './planar'
-import BoundingBox from './boundingbox'
+import Planar from './planar.js'
+import BoundingBox from './boundingbox.js'
 
 export default class Material {
   constructor (baseMaterial, lighting, fade, simplify, side) {

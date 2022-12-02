@@ -1,4 +1,4 @@
-import { _FACEINDEXUVS } from './constants'
+import { _FACEINDEXUVS } from './constants.js'
 
 export default class UVAssigner {
   static assignUVs (model, buffers) {

@@ -1,5 +1,5 @@
-import { MATSTANDARD, MATBASIC, MATPHONG, MATTOON, MATMATCAP, MATNORMAL, MATLAMBERT, FRONT, BACK, DOUBLE } from './constants'
-import Color from './color'
+import { MATSTANDARD, MATBASIC, MATPHONG, MATTOON, MATMATCAP, MATNORMAL, MATLAMBERT, FRONT, BACK, DOUBLE } from './constants.js'
+import Color from './color.js'
 
 export default class BaseMaterial {
   constructor (type, roughness, metalness,

@@ -1,8 +1,8 @@
-import Model from './model'
-import Color from './color'
-import Light from './light'
-import BoundingBox from './boundingbox'
-import Voxels, { shiftForSize, voxBGRForHex } from './voxels'
+import Model from './model.js'
+import Color from './color.js'
+import Light from './light.js'
+import BoundingBox from './boundingbox.js'
+import Voxels, { shiftForSize, voxBGRForHex } from './voxels.js'
 
 import { MATSTANDARD, FLAT, QUAD, SMOOTH, BOTH, MATBASIC, FRONT, BOUNDS, MODEL } from './constants.js'
 

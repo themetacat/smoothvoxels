@@ -1,4 +1,4 @@
-import Matrix from './matrix'
+import Matrix from './matrix.js'
 
 const normalXs = [null, null, null, null]
 const normalYs = [null, null, null, null]

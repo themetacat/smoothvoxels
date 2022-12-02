@@ -1,4 +1,4 @@
-import { DOUBLE, FRONT, MATNORMAL, BACK, SMOOTH, BOTH, QUAD } from './constants'
+import { DOUBLE, FRONT, MATNORMAL, BACK, SMOOTH, BOTH, QUAD } from './constants.js'
 const vertCache = new Map()
 
 // Generates a clean js mesh data model, which serves as the basis for transformation in the SvoxToThreeMeshConverter or the SvoxToAFrameConverter
@@ -6,13 +6,19 @@ export default class SvoxMeshGenerator {
   static generate (model, buffers) {
     // let t0 = performance.now()
     model.prepareForRender(buffers)
+    console.log(model)
     // console.log('prep for render: ' + (performance.now() - t0) + 'ms')
 
+    // 4191
     const { nonCulledFaceCount } = model
 
+    // []
+    // model.shell undefined
     const shells = SvoxMeshGenerator._getAllShells(model)
-    const maxShellCount = shells.map(shell => shell.length).reduce((a, b) => Math.max(a, b), 0) + 1
 
+    // maxShellCount = 1
+    const maxShellCount = shells.map(shell => shell.length).reduce((a, b) => Math.max(a, b), 0) + 1
+   
     const mesh = {
       materials: [],
       groups: [],
@@ -29,7 +35,11 @@ export default class SvoxMeshGenerator {
     // t0 = performance.now()
     model.materials.baseMaterials.forEach(function (material) {
       // if (material.colorUsageCount > 0) {
+      
+      // material.index=0
       material.index = mesh.materials.length
+      console.log(material)
+      
       mesh.materials.push(SvoxMeshGenerator._generateMaterial(material, model))
       // }
     }, this)
@@ -47,6 +57,7 @@ export default class SvoxMeshGenerator {
 
     // t0 = performance.now()
     vertCache.clear()
+    // mesh 增减键值 作用？
     SvoxMeshGenerator._generateAll(model, mesh, buffers, shells)
     // console.log('Mesh generation took ' + (performance.now() - t0) + ' ms')
 
@@ -85,6 +96,7 @@ export default class SvoxMeshGenerator {
       material.color = '#FFF'
     }
 
+    // 都是null 都跳过
     if (definition.emissive) {
       material.emissive = definition.emissive.color.toString()
       material.emissiveIntensity = definition.emissive.intensity
@@ -159,7 +171,6 @@ export default class SvoxMeshGenerator {
 
     return material
   }
-
   static _generateAll (model, mesh, buffers, shells) {
     const materials = model.materials.materials
     const { faceMaterials, faceCulled } = buffers

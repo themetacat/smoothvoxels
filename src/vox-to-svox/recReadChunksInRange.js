@@ -1,6 +1,6 @@
-import readId from './readId'
-import { intByteLength } from './constants'
-import getChunkData from './getChunkData'
+import readId from './readId.js'
+import { intByteLength } from './constants.js'
+import getChunkData from './getChunkData.js'
 
 export default function recReadChunksInRange (Buffer, bufferStartIndex, bufferEndIndex, accum) {
   const state = {
@@ -8,12 +8,19 @@ export default function recReadChunksInRange (Buffer, bufferStartIndex, bufferEn
     readByteIndex: bufferStartIndex
   }
 
+  // state.readByteIndex = 12
   const id = readId(state, bufferStartIndex)
 
+  // chunkContentByteLength = 0
   const chunkContentByteLength = Buffer.readInt32LE(state.readByteIndex)
-  state.readByteIndex += intByteLength
 
+  //state.readByteIndex = 16
+  state.readByteIndex += intByteLength  
+
+  // 49454
   const childContentByteLength = Buffer.readInt32LE(state.readByteIndex)
+
+  //state.readByteIndex = 20
   state.readByteIndex += intByteLength
 
   const definitionEndIndex = state.readByteIndex

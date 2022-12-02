@@ -1,5 +1,5 @@
-import { xyzRangeForSize } from './voxels'
-import Noise from './noise'
+import { xyzRangeForSize } from './voxels.js'
+import Noise from './noise.js'
 
 export default class Deformer {
   static changeShape (model, buffers, shape) {
